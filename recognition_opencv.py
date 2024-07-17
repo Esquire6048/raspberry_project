@@ -25,9 +25,9 @@ t_start = time.time()
 # Use this as our output
 rawCapture = PiRGBArray(camera, size=(resX, resY))
 
-# The face cascade file to be used
+# load eye cascade file
 face_cascade = cv2.CascadeClassifier(
-    "/home/xuziheng/Desktop/models/haarcascade_eye_tree_eyeglasses.xml"
+    cv2.data.haarcascades + "haarcascade_eye_tree_eyeglasses.xml"
 )
 
 
