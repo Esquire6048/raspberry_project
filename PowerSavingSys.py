@@ -10,13 +10,9 @@ import socket
 import requests
 import json
 
-# The IP of the client
-DEVICE_IP = '192.168.156.72'
+DEVICE_IP = '100.64.1.112'
 DEVICE_PORT = 3000
 TIMEOUT_CONST = 15
-SLACK_URL_POST = 'https://slack.com/api/chat.postMessage'
-SLACK_WORKSPACE_TOKEN = ''
-SLACK_CHANNEL_ID = ''
 
 ### Setup #####################################################################
 
@@ -48,6 +44,7 @@ info = ""
 
 ### Helper Functions ##########################################################
 
+
 def send_msg2client():
     message = "Timeout"
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -57,28 +54,6 @@ def send_msg2client():
             print(f"Sent message: {message}")
         except Exception as e:
             print(f"Failed to send message: {e}")
-
-
-def send_msg2slack():
-    t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    data = {
-        "token": SLACK_WORKSPACE_TOKEN,
-        "channel": SLACK_CHANNEL_ID,
-        "blocks": json.dumps([
-            {
-                "type": "section",
-                "text": {
-                        "type": "mrkdwn",
-                    "text": f"*:red_circle: CAUTION*\nThe system turned off the screen at <mailto:y-ouyang@mc.net.ist.osaka-u.ac.jp|{t}>."
-                }
-            }
-        ])
-    }
-    response = requests.post(SLACK_URL_POST, data=data)
-    if response.status_code == 200 and response.json().get("ok"):
-        print("Slack message sent successfully")
-    else:
-        print(f"Failed to send Slack message: {response.text}")
 
 
 def get_eyes(img):
@@ -111,7 +86,6 @@ def draw_frame(img, faces):
         info = f"will turn off the screen after {int(minutes):02}m{int(seconds):02}s"
         if elapsed_time >= TIMEOUT_CONST:  # Timeout
             send_msg2client()
-            send_msg2slack()
             info = "Inactive"
             timer_running = False
 
@@ -131,6 +105,7 @@ def draw_frame(img, faces):
     cv2.imshow("Frame", img)
 
 ### Main ######################################################################
+
 
 if __name__ == "__main__":
     pool = mp.Pool(processes=4)
@@ -226,9 +201,9 @@ if __name__ == "__main__":
             i = 0
 
         i += 1
-        
+
         rawCapture.truncate(0)
-        
+
         # exit if Esc key is pressed
         if cv2.waitKey(1) == 27:
             break
