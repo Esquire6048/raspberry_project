@@ -20,7 +20,7 @@ except ImportError:
 
 SLACK_URL_POST = 'https://slack.com/api/chat.postMessage'
 SLACK_WORKSPACE_TOKEN = ''
-SLACK_CHANNEL_ID = 'D07BZT4AFPZ'
+SLACK_CHANNEL_ID = ''
 
 
 def shutdown_screen():

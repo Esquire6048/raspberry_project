@@ -10,7 +10,7 @@ import socket
 import requests
 import json
 
-DEVICE_IP = '100.64.1.112'
+DEVICE_IP = '192.168.156.72'
 DEVICE_PORT = 3000
 TIMEOUT_CONST = 15
 
@@ -101,8 +101,8 @@ def draw_frame(img, faces):
     # show appropriate info text
     cv2.putText(img, info, (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
-    cv2.imshow("Frame", img)
+                
+    cv2.imshow("Frame", cv2.resize(img, (600, 450)))
 
 ### Main ######################################################################
 
